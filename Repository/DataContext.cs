@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QUANLYKHO.Models;
-using StockManagementMVC.Models;
+using QUANLYKHO.Models;
 
 namespace QUANLYKHO.Repository
 {

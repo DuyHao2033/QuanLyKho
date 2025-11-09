@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 //using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
-using StockManagementMVC.Models.ViewModel;
+using QUANLYKHO.Models.ViewModel;
 
-namespace StockManagementMVC.Controllers
+namespace QUANLYKHO.Controllers
 {
     public class AccountController : Controller
     {

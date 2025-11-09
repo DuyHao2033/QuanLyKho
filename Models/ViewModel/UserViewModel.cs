@@ -2,17 +2,14 @@
 
 namespace QUANLYKHO.Models.ViewModel
 {
-    public class UserEditViewModel
+    public class UserViewModel
     {
-        public string Id { get; set; }
-
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật khẩu mới (nếu muốn đổi)")]
-        public string NewPassword { get; set; }
+        public string Password { get; set; }
     }
 }

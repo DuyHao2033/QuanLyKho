@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StockManagementMVC.Models
+namespace QUANLYKHO.Models
 {
     public class ProductModel
     {

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using QUANLYKHO.Models;
-using StockManagementMVC.Models;
+using QUANLYKHO.Models;
 using System.Diagnostics;
 
-namespace StockManagementMVC.Controllers
+namespace QUANLYKHO.Controllers
 {
     public class HomeController : Controller
     {
