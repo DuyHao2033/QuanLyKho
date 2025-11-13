@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace StockManagementMVC.Migrations
+namespace QUANLYKHO.Migrations
 {
     /// <inheritdoc />
     public partial class SupplierMigration : Migration

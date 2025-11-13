@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace StockManagementMVC.Migrations
+namespace QUANLYKHO.Migrations
 {
     /// <inheritdoc />
     public partial class Capnhatthem_datetime_chosp : Migration

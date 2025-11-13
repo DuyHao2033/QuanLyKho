@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QUANLYKHO.Models;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using QUANLYKHO.Models;
 
 namespace QUANLYKHO.Repository
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -12,5 +12,8 @@ namespace QUANLYKHO.Repository
         }
         public DbSet<ProductModel> Products { get; set; }
 
+        public DbSet<WarehouseTransactionModel> WarehouseTransactions { get; set; }
+
+        public DbSet<SupplierModel> Supplier { get; set; }
     }
 }

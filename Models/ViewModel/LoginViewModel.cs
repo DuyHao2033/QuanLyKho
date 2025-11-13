@@ -2,7 +2,7 @@
 
 namespace QUANLYKHO.Models.ViewModel
 {
-    // Ensure only one definition of LoginViewModel exists in this namespace.
+
     public class LoginViewModel
     {
         public string Email { get; set; }

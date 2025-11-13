@@ -1,4 +1,4 @@
-﻿namespace StockManagementMVC.Models
+﻿namespace QUANLYKHO.Models
 {
     public class RoleSelection
     {

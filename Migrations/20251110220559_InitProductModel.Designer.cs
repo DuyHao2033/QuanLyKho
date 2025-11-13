@@ -12,7 +12,7 @@ using QUANLYKHO.Repository;
 namespace QUANLYKHO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251020175435_InitProductModel")]
+    [Migration("20251110220559_InitProductModel")]
     partial class InitProductModel
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace QUANLYKHO.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("StockManagementMVC.Models.ProductModel", b =>
+            modelBuilder.Entity("QUANLYKHO.Models.ProductModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

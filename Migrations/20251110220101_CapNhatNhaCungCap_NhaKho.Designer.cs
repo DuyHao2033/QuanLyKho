@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StockManagementMVC.Repository;
+using QUANLYKHO.Repository;
 
 #nullable disable
 
-namespace StockManagementMVC.Migrations
+namespace QUANLYKHO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250715033325_SupplierMigration")]
-    partial class SupplierMigration
+    [Migration("20251110220101_CapNhatNhaCungCap_NhaKho")]
+    partial class CapNhatNhaCungCap_NhaKho
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,7 +227,7 @@ namespace StockManagementMVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("StockManagementMVC.Models.ProductModel", b =>
+            modelBuilder.Entity("QUANLYKHO.Models.ProductModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,7 +273,7 @@ namespace StockManagementMVC.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("StockManagementMVC.Models.SupplierModel", b =>
+            modelBuilder.Entity("QUANLYKHO.Models.SupplierModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -306,7 +306,7 @@ namespace StockManagementMVC.Migrations
                     b.ToTable("Supplier");
                 });
 
-            modelBuilder.Entity("StockManagementMVC.Models.WarehouseTransactionModel", b =>
+            modelBuilder.Entity("QUANLYKHO.Models.WarehouseTransactionModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -325,6 +325,9 @@ namespace StockManagementMVC.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
@@ -336,6 +339,8 @@ namespace StockManagementMVC.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("WarehouseTransactions");
                 });
@@ -391,15 +396,23 @@ namespace StockManagementMVC.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StockManagementMVC.Models.WarehouseTransactionModel", b =>
+            modelBuilder.Entity("QUANLYKHO.Models.WarehouseTransactionModel", b =>
                 {
-                    b.HasOne("StockManagementMVC.Models.ProductModel", "Product")
+                    b.HasOne("QUANLYKHO.Models.ProductModel", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("QUANLYKHO.Models.SupplierModel", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
+
+                    b.Navigation("Supplier");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using QUANLYKHO.Models;
-using QUANLYKHO.Models;
 using System.Diagnostics;
 
 namespace QUANLYKHO.Controllers
