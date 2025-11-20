@@ -1,5 +1,5 @@
-﻿﻿@{
-ViewData["Title"] = "Trang chủ Quản lý Kho";
+﻿@{
+    ViewData["Title"] = "Trang chủ Quản lý Kho";
 }
 
 <div class="container mt-5">
@@ -9,58 +9,76 @@ ViewData["Title"] = "Trang chủ Quản lý Kho";
     </div>
 
     <div class="row text-center">
+        <!-- ================= SẢN PHẨM ================= -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/3011/3011270.png" class="card-img-top p-4" style="height: 180px;" alt="Quản lý sản phẩm">
+                <img src="https://cdn-icons-png.flaticon.com/512/3011/3011270.png"
+                     class="card-img-top p-4" style="height: 180px;" alt="Quản lý sản phẩm">
                 <div class="card-body">
                     <h5 class="card-title">Quản lý Sản phẩm</h5>
                     <p class="card-text">Thêm, sửa, xóa và xem danh sách sản phẩm trong kho.</p>
+
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-action="Index" asp-controller="Product" asp-area="Admin" class="btn btn-primary">Xem chi tiết</a>
+                        <a asp-action="Index" asp-controller="Product" asp-area="Admin" class="btn btn-primary">
+                            Xem chi tiết
+                        </a>
                     }
                     else
                     {
-                        <a asp-action="Login" asp-controller="Account" class="btn btn-primary">Xem chi tiết</a>
-
+                        <a asp-action="Login" asp-controller="Account" class="btn btn-primary">
+                            Xem chi tiết
+                        </a>
                     }
                 </div>
             </div>
         </div>
 
+        <!-- ================= NHẬP KHO ================= -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/1170/1170627.png" class="card-img-top p-4" style="height: 180px;" alt="Nhập kho">
+                <img src="https://cdn-icons-png.flaticon.com/512/1170/1170627.png"
+                     class="card-img-top p-4" style="height: 180px;" alt="Nhập kho">
                 <div class="card-body">
                     <h5 class="card-title">Nhập kho</h5>
                     <p class="card-text">Ghi nhận hàng hóa được nhập kho theo từng nhà cung cấp.</p>
+
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-action="Import" asp-controller="Warehouse" asp-area="Admin" class="btn btn-success">Nhập hàng</a>
+                        <a asp-action="Import" asp-controller="Warehouse" asp-area="Admin" class="btn btn-success">
+                            Nhập hàng
+                        </a>
                     }
                     else
                     {
-                        <a asp-action="Login" asp-controller="Account" class="btn btn-success">Nhập hàng</a>
-
+                        <a asp-action="Login" asp-controller="Account" class="btn btn-success">
+                            Nhập hàng
+                        </a>
                     }
                 </div>
             </div>
         </div>
 
+        <!-- ================= XUẤT KHO ================= -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/1170/1170623.png" class="card-img-top p-4" style="height: 180px;" alt="Xuất kho">
+                <img src="https://cdn-icons-png.flaticon.com/512/1170/1170623.png"
+                     class="card-img-top p-4" style="height: 180px;" alt="Xuất kho">
                 <div class="card-body">
                     <h5 class="card-title">Xuất kho</h5>
                     <p class="card-text">Theo dõi các giao dịch xuất hàng, giảm tồn kho chính xác.</p>
+
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-action="Export" asp-controller="Warehouse" asp-area="Admin" class="btn btn-danger">Xuất hàng</a>
+                        <a asp-action="Export" asp-controller="Warehouse" asp-area="Admin" class="btn btn-danger">
+                            Xuất hàng
+                        </a>
                     }
                     else
                     {
-                        <a asp-action="Login" asp-controller="Account" class="btn btn-danger">Xuất hàng</a>
-
+                        <a asp-action="Login" asp-controller="Account" class="btn btn-danger">
+                            Xuất hàng
+                        </a>
                     }
                 </div>
             </div>
