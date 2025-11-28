@@ -1,15 +1,35 @@
-﻿@if (TempData["successMessage"] is not null)
+﻿@* Success message *@
+@if (TempData["successMessage"] != null)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
         @TempData["successMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
-@if (TempData["errorMessage"] is not null)
+@* Error message *@
+@if (TempData["errorMessage"] != null)
 {
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
         @TempData["errorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@* Warning message (nếu bạn muốn dùng trong tương lai) *@
+@if (TempData["warningMessage"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+        @TempData["warningMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@* Info message (tuỳ chọn) *@
+@if (TempData["infoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show mt-2" role="alert">
+        @TempData["infoMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }

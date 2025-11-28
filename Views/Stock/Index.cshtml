@@ -2,29 +2,57 @@
 @{
     Layout = "_AdminLayout";
 }
-<h2>Stocks</h2>
 
-<form asp-action="Index" method="get" class="my-2 d-flex gap-2">
-    <input type="text" name="sTerm" class="form-control w-25" placeholder="Search by book" />
-    <button type="submit" class="btn btn-primary">Find</button>
-    <a asp-action="Index" asp-controller="Stock" class="btn btn-primary">Clear</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold">Stocks</h2>
+</div>
+
+<form asp-action="Index" method="get" class="d-flex gap-2 mb-4">
+    <input type="text"
+           name="sTerm"
+           value="@Context.Request.Query["sTerm"]"
+           class="form-control w-25"
+           placeholder="Search by book..." />
+
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-search"></i> Find
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i> Clear
+    </a>
 </form>
 
-<table class="table table-bordered">
-  <tr>
-    <th>Book</th>
-    <th>Stock</th>
-    <th>Actions</th>
-  </tr>
-  @foreach(var item in Model)
-  {
-    <tr>
-      <td>@item.BookName</td>
-      <td>@item.Quantity</td>
-      <td>
-         <a asp-action="ManangeStock" asp-controller="Stock" asp-route-bookId="@item.BookId" class="btn btn-info"> Update Stock</a>
-      </td>
-    </tr>
-  }
+<table class="table table-hover table-bordered align-middle shadow-sm">
+    <thead class="table-light">
+        <tr>
+            <th>Book</th>
+            <th style="width: 120px;">Stock</th>
+            <th style="width: 160px;">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BookName</td>
+                <td class="fw-bold">@item.Quantity</td>
+                <td>
+                    <a asp-action="ManangeStock"
+                       asp-route-bookId="@item.BookId"
+                       class="btn btn-info text-white btn-sm">
+                        <i class="bi bi-pencil-square"></i> Update Stock
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-3">
+        <i class="bi bi-exclamation-circle"></i> No stock records found.
+    </div>
+}

@@ -1,77 +1,100 @@
 ﻿@model IEnumerable<Order>
 @{
+    Layout = "_Layout";   // Nếu trang này dành cho user thường, giữ nguyên Layout mặc định
 }
-<div style="width:100%" class="mt-2">
-    <a href="/Identity/Account/Manage" class="btn btn-primary my-2">Back</a>
 
-    <h4>My Orders</h4>
-    @if (Model != null && Model.Count() > 0)
+<div class="container mt-4">
+
+    <a href="/Identity/Account/Manage" class="btn btn-secondary mb-3">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+
+    <h2 class="fw-bold mb-4">📦 My Orders</h2>
+
+    @if (Model != null && Model.Any())
     {
-        <table class="table table-striped">
-            <tr>
-                <th>OrderDate</th>
-                <th>OrderStatus</th>
-            </tr>
-            @foreach (var order in Model)
+        <div class="accordion" id="ordersAccordion">
+
+            @foreach (var order in Model.Select((order, index) => new { order, index }))
             {
-                <tr>
-                    <td>@order.CreateDate.ToString("dd-MM-yyyy")</td>
-                    <td>@order.OrderStatus.StatusName</td>
-                </tr>
-                @if (order.OrderDetail != null && order.OrderDetail.Count > 0)
-                {
-                    <tr>
-                        <td>
-                            <table class="table table-striped">
-                                <tr>
-                                    <td>
-                                        Total:
-                                    </td>
-                                    <td>
-                                        @(order.OrderDetail.Select(item => item.Book.Price * item.Quantity).Sum())
+                var collapseId = $"collapse{order.index}";
+                var headingId = $"heading{order.index}";
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Book</th>
-                                    <th>Image</th>
-                                    <th>Genre</th>
-                                    <th>Unit Price(INR)</th>
-                                    <th>Total Price</th>
-                                </tr>
-                                @foreach (var item in order.OrderDetail)
-                                {
-                                    <tr>
-                                        <td>@item.Book.BookName</td>
-                                        <td>
-                                            @if (string.IsNullOrEmpty(item.Book.Image))
-                                            {
-                                                <img src="/images/NoImage.png" style="width:80px;height:100px" />
-                                            }
-                                            else
-                                            {
-                                                <img src="/images/@item.Book.Image" style="width:80px;height:100px" />
-                                            }
-                                        </td>
-                                        <td>@item.Book.Genre.GenreName</td>
-                                        <td>@item.Book.Price X @item.Quantity</td>
-                                        <td> @(item.Book.Price * item.Quantity) </td>
-                                    </tr>
-                                }
-                            </table>
-                        </td>
-                    </tr>
-                }
+                <div class="accordion-item shadow-sm mb-3">
+
+                    <!-- Order header -->
+                    <h2 class="accordion-header" id="@headingId">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                            <div class="d-flex flex-column">
+                                <strong>Order Date:</strong> @order.order.CreateDate.ToString("dd-MM-yyyy")
+                                <small class="text-muted">
+                                    Status: <span class="fw-semibold">@order.order.OrderStatus.StatusName</span>
+                                </small>
+                            </div>
+                        </button>
+                    </h2>
+
+                    <!-- Order details -->
+                    <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headingId"
+                         data-bs-parent="#ordersAccordion">
+                        <div class="accordion-body">
+
+                            @if (order.order.OrderDetail != null && order.order.OrderDetail.Any())
+                            {
+                                <h5 class="fw-bold">Order Summary</h5>
+
+                                <p class="mb-3 fs-6">
+                                    Total:
+                                    <span class="fw-bold text-primary">
+                                        @order.order.OrderDetail.Sum(i => i.Book.Price * i.Quantity)
+                                    </span>
+                                </p>
+
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Book</th>
+                                            <th>Image</th>
+                                            <th>Genre</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in order.order.OrderDetail)
+                                        {
+                                            <tr>
+                                                <td class="fw-semibold">@item.Book.BookName</td>
+                                                <td>
+                                                    <img src="@(string.IsNullOrEmpty(item.Book.Image)
+                                                                                                                         ? "/images/NoImage.png"
+                                                                                                                         : $"/images/{item.Book.Image}")"
+                                         class="img-thumbnail"
+                                         style="width:70px;height:90px;object-fit:cover" />
+                                </td>
+                                <td>@item.Book.Genre.GenreName</td>
+                                <td>@item.Book.Price</td>
+                                <td>@item.Quantity</td>
+                                <td class="fw-bold">
+                                    @(item.Book.Price* item.Quantity)
+                                </td>
+                            </tr>
+                                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
             }
-        </table>
-
+        </div>
     }
     else
     {
-        <h5>No orders</h5>
+        <div class="alert alert-warning mt-3">
+            <i class="bi bi-exclamation-circle"></i> You have no orders.
+        </div>
     }
 </div>
-
-
-
-

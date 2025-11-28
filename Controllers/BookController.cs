@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace BookShoppingCartMvcUI.Controllers;
 
@@ -19,11 +20,33 @@ public class BookController : Controller
         _fileService = fileService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
+        int pageSize = 10; // số sách hiển thị mỗi trang
+
+        // Lấy tất cả sách từ repository
         var books = await _bookRepo.GetBooks();
-        return View(books);
+
+        // Sắp xếp sách theo Id (hoặc theo tên)
+        books = books.OrderBy(b => b.Id).ToList();
+
+        // Tính tổng số trang
+        int totalBooks = books.Count();
+        int totalPages = (int)Math.Ceiling(totalBooks / (double)pageSize);
+
+        // Lấy sách theo trang hiện tại
+        var pagedBooks = books
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        // Truyền dữ liệu phân trang sang View
+        ViewBag.CurrentPage = page;
+        ViewBag.TotalPages = totalPages;
+
+        return View(pagedBooks);
     }
+
 
     public async Task<IActionResult> AddBook()
     {

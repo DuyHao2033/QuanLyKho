@@ -1,87 +1,122 @@
 ﻿@model BookDisplayModel
-@{
 
-}
-<div class="my-2">
-    <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
-        <div class="col-12">
-            <label class="visually-hidden" for="genreId">Genres</label>
+<div class="container mt-4">
+
+    <!-- Search + Filter -->
+    <form asp-action="Index" class="row gy-3 gx-3 align-items-center bg-light p-3 rounded shadow-sm">
+
+        <!-- Genre Dropdown -->
+        <div class="col-md-3">
+            <label class="form-label fw-semibold">Genre</label>
             <select class="form-select" id="genreId" name="genreId">
-                <option selected>Genre</option>
+                <option value="">All Genres</option>
                 @foreach (var genre in Model.Genres)
                 {
-                    <option selected="@(genre.Id == Model.GenreId)" value="@genre.Id">@genre.GenreName</option>
+                    <option value="@genre.Id" selected="@(genre.Id == Model.GenreId)">
+                        @genre.GenreName
+                    </option>
                 }
             </select>
         </div>
 
-        <div class="col-12">
-            <label class="visually-hidden" for="sterm">Search by title</label>
+        <!-- Search box -->
+        <div class="col-md-4">
+            <label class="form-label fw-semibold">Search by title</label>
             <div class="input-group">
-                <div class="input-group-text"></div>
-                <input type="text" class="form-control" value="@Model.STerm" id="sterm" name="sterm" placeholder="Sarch by title">
+                <input type="text" class="form-control" value="@Model.STerm"
+                       id="sterm" name="sterm" placeholder="Search book title...">
             </div>
         </div>
 
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a href="/Home/Index" class="btn btn-dark">Reset</a>
+        <!-- Buttons -->
+        <div class="col-md-3 d-flex align-items-end gap-2">
+            <button type="submit" class="btn btn-primary w-50">
+                <i class="bi bi-search"></i> Search
+            </button>
+            <a href="/Home/Index" class="btn btn-secondary w-50">
+                <i class="bi bi-arrow-clockwise"></i> Reset
+            </a>
         </div>
+
     </form>
-</div>
 
-<div class="w-100 mt-4 d-flex flex-wrap ">
-    @foreach (var book in Model.Books)
-    {
-        <div class="card mx-3 mb-4" style="width: 11rem;">
-            @if (string.IsNullOrEmpty(book.Image))
-            {
-                <img style="width:100%;height:180px" src="/images/NoImage.png" class="card-img-top" alt="No image">
-            }
-            else
-            {
-                <img style="width:100%;height:180px" src="@book.Image" class="card-img-top" alt="@book.BookName">
-            }
 
-            <div class="card-body">
-                <h5 class="card-title">@book.BookName</h5>
-                <p class="card-text">
-                    <b>Genre: </b>@book.GenreName <br />
-                    <b>Author: </b>@book.AuthorName <br />
-                    <b>Price: </b>@book.Price
-                    @* <br/> <b>@book.Quantity</b> *@
-                </p>
-                @if (book.Quantity > 0)
-                {
-                    <button type="button" onclick="add(@book.Id)" class="btn btn-primary">Add to cart</button>
-                }
-                else
-                {
-                    <span style="border: 1px solid;padding: 5px 8px;color: red;border-radius: 5px;">Out of stock</span>
-                }
+    <!-- Book List -->
+    <div class="row mt-4">
+
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-6 col-sm-4 col-md-3 col-xl-2 mb-4">
+
+                <div class="card h-100 shadow-sm border-0 hover-card">
+
+                    <!-- Book Image -->
+                    <div class="position-relative">
+                        <img src="@(string.IsNullOrEmpty(book.Image) ? "/images/NoImage.png" : book.Image)"
+                             class="card-img-top"
+                             style="height:180px; object-fit:cover" />
+
+                        @if (book.Quantity == 0)
+                        {
+                            <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                Out of stock
+                            </span>
+                        }
+                    </div>
+
+                    <!-- Info -->
+                    <div class="card-body d-flex flex-column">
+
+                        <h6 class="card-title fw-bold text-truncate">@book.BookName</h6>
+
+                        <p class="small text-muted mb-2">
+                            <b>Genre:</b> @book.GenreName <br />
+                            <b>Author:</b> @book.AuthorName
+                        </p>
+
+                        <div class="mt-auto">
+                            <p class="fw-bold text-primary mb-2">$@book.Price</p>
+
+                            @if (book.Quantity > 0)
+                            {
+                                <button type="button" onclick="add(@book.Id)"
+                                        class="btn btn-sm btn-primary w-100">
+                                    <i class="bi bi-cart-plus"></i> Add to cart
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-sm btn-outline-danger w-100" disabled>
+                                    Out of stock
+                                </button>
+                            }
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
-    }
+        }
+
+    </div>
 </div>
 
-@section Scripts{
+
+@section Scripts {
     <script>
         async function add(bookId) {
-             var usernameEl = document.getElementById("username");
-        if(usernameEl==null){
-            window.location.href = "/Identity/Account/Login";
-          //var username=usernameEl.innerText;
-          //  if(username.length<1){
-          //      window.location.href="/Identity/Account/Login";
-          //  }
-        }
+
+            var usernameEl = document.getElementById("username");
+            if(usernameEl == null){
+                window.location.href = "/Identity/Account/Login";
+                return;
+            }
+
             try {
                 var response = await fetch(`/Cart/AddItem?bookId=${bookId}`);
+
                 if (response.status == 200) {
                     var result = await response.json();
-                    var cartCountEl = document.getElementById("cartCount");
-                    cartCountEl.innerHTML = result;
-                    window.location.href = "#cartCount";
+                    document.getElementById("cartCount").innerHTML = result;
                 }
             }
             catch (err) {
@@ -89,6 +124,16 @@
             }
         }
     </script>
+
+    <style>
+        /* Card hover effect */
+        .hover-card {
+            transition: transform .15s, box-shadow .15s;
+        }
+
+            .hover-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0px 6px 14px rgba(0,0,0,0.1);
+            }
+    </style>
 }
-
-

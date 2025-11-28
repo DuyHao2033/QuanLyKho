@@ -1,96 +1,204 @@
 ﻿<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EBookStore - Online book store</title>
+
+    <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-image: url('/images/books/pic.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 0.4s forwards;
+        }
+
+            /* Overlay mờ */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.4);
+                z-index: -1;
+            }
+
+        /* Navbar đẹp */
+        .navbar {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, #0d6efd, #0b5ed7) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+        }
+
+            .nav-link:hover {
+                opacity: 0.85;
+            }
+
+        /* Container spacing */
+        .main-container {
+            padding-top: 22px;
+            padding-bottom: 22px;
+        }
+
+        /* Page fade-in effect */
+        @@keyframes fadeIn {
+            to
+
+        {
+            opacity: 1;
+        }
+
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+
+            .dark-mode::before {
+                background-color: rgba(15, 23, 42, 0.85) !important;
+            }
+
+            .dark-mode .navbar {
+                background: linear-gradient(90deg, #1e293b, #0f172a) !important;
+            }
+
+            .dark-mode .card,
+            .dark-mode .modal-content {
+                background-color: #1e293b !important;
+                color: #e2e8f0 !important;
+                border-color: #334155 !important;
+            }
+
+            .dark-mode a {
+                color: #93c5fd !important;
+            }
+
+            .dark-mode .form-control {
+                background-color: #334155 !important;
+                color: #f8fafc !important;
+                border-color: #475569 !important;
+            }
+
+            .dark-mode .btn-primary {
+                background-color: #3b82f6 !important;
+            }
+    </style>
+
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/Home/Index">EBookStore</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+
+            <a class="navbar-brand d-flex align-items-center" href="/Home/Index">
+                <img src="/images/logo.png" width="40" height="40" class="me-2" />
+                EBookStore
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav me-auto">
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
                         <a class="nav-link active" href="/Home/Index">
-                            Home
-                            <span class="visually-hidden">(current)</span>
+                            <i class="bi bi-house-door me-1"></i> Home
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Privacy">Privacy</a>
+                        <a class="nav-link" href="/Home/Privacy">
+                            <i class="bi bi-shield-lock me-1"></i> Privacy
+                        </a>
                     </li>
+
                     @if (User.IsInRole(Roles.Admin.ToString()))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="/AdminOperations/Dashboard">Dashboard</a>
+                            <a class="nav-link" href="/AdminOperations/Dashboard">
+                                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                            </a>
                         </li>
-                       @*  <li class="nav-item">
-                          <a class="nav-link" 
-                          href="/AdminOperations/AllOrders">Orders</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Stock/Index">Stock</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Genre/Index">Genre</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Book/Index">Books</a>
-                        </li> *@
                     }
-                    
-                    @*<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                    </li>*@
                 </ul>
+
                 <partial name="_LoginPartial" />
+                <button id="darkModeToggle" class="btn btn-outline-light ms-3">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
 
             </div>
+
         </div>
     </nav>
-    <div class="container">
-        <div class="my-2">
-            <partial name="_Notifications" />
-        </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="container main-container">
+        <partial name="_Notifications" />
         @RenderBody()
     </div>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Botpress Webchat -->
+    <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/11/23/18/20251123183927-AJ610R18.js" defer></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
     <script>
-        loadCartCount();
-        async function loadCartCount() {
-            try {
-            var response = await fetch(`/Cart/GetTotalItemInCart`);
-              console.log(response)    
-                if (response.status == 200) {
-                    var result = await response.json();
-                    var cartCountEl = document.getElementById("cartCount");
-                    cartCountEl.innerHTML = result;
-                }
-            }
-            catch (err) {
-                console.log(err);
-            }
+        const toggle = document.getElementById("darkModeToggle");
+
+        // Load trạng thái dark mode từ localStorage
+        if (localStorage.getItem("darkMode") === "enabled") {
+            document.body.classList.add("dark-mode");
+            toggle.innerHTML = `<i class="bi bi-brightness-high"></i>`;
         }
-</script>
+
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+
+            if (document.body.classList.contains("dark-mode")) {
+                localStorage.setItem("darkMode", "enabled");
+                toggle.innerHTML = `<i class="bi bi-brightness-high"></i>`;
+            } else {
+                localStorage.setItem("darkMode", "disabled");
+                toggle.innerHTML = `<i class="bi bi-moon-stars"></i>`;
+            }
+        });
+    </script>
+
+</body>
 </html>
-
-
-@await RenderSectionAsync("Scripts", required: false)
-
