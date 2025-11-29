@@ -28,6 +28,16 @@
             </div>
         </div>
 
+        <!-- Sort dropdown -->
+        <div class="col-md-2">
+            <label class="form-label fw-semibold">Sort by</label>
+            <select class="form-select" id="sortBy" name="sortBy">
+                <option value="name">Name</option>
+                <option value="priceAsc">Price: Low to High</option>
+                <option value="priceDesc">Price: High to Low</option>
+            </select>
+        </div>
+
         <!-- Buttons -->
         <div class="col-md-3 d-flex align-items-end gap-2">
             <button type="submit" class="btn btn-primary w-50">
@@ -71,11 +81,14 @@
 
                         <p class="small text-muted mb-2">
                             <b>Genre:</b> @book.GenreName <br />
-                            <b>Author:</b> @book.AuthorName
+                            <b>Author:</b> @book.AuthorName <br />
+                            <b>Stock:</b> @book.Quantity
                         </p>
 
                         <div class="mt-auto">
-                            <p class="fw-bold text-primary mb-2">$@book.Price</p>
+                            <p class="fw-bold text-primary mb-2">
+                                @string.Format("{0:N0}₫", book.Price)
+                            </p>
 
                             @if (book.Quantity > 0)
                             {
@@ -104,26 +117,42 @@
 @section Scripts {
     <script>
         async function add(bookId) {
-
             var usernameEl = document.getElementById("username");
-            if(usernameEl == null){
+            if (usernameEl == null) {
                 window.location.href = "/Identity/Account/Login";
                 return;
             }
 
             try {
                 var response = await fetch(`/Cart/AddItem?bookId=${bookId}`);
-
                 if (response.status == 200) {
                     var result = await response.json();
                     document.getElementById("cartCount").innerHTML = result;
+                    showToast("Book added to cart!");
                 }
             }
             catch (err) {
                 console.log(err);
             }
         }
+
+        function showToast(message) {
+            var toastEl = document.getElementById("liveToast");
+            document.getElementById("toastMessage").innerText = message;
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
     </script>
+
+    <!-- Bootstrap Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast align-items-center text-bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
 
     <style>
         /* Card hover effect */

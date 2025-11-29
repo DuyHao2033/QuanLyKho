@@ -3,11 +3,11 @@
 
 @{
     ViewData["Title"] = "Log in";
-    Layout = "_Layout"; // Hoặc "_AdminLayout" nếu muốn đồng bộ admin
+  
 }
 
-<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-    <div class="card shadow-lg p-4" style="max-width: 450px; width:100%; border-radius: 15px;">
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card login-card shadow-lg p-4" style="max-width:450px; width:100%; border-radius:15px;">
         <div class="text-center mb-4">
             <img src="/images/logo.png" alt="Logo" width="60" class="mb-2" />
             <h2 class="fw-bold">EBookStore</h2>
@@ -65,3 +65,18 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    /* Card login mặc định: light mode */
+    .login-card {
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Dark mode: đồng bộ với overlay và layout */
+    .dark-mode .login-card {
+        background-color: rgba(30, 41, 59, 0.85);
+        color: #e2e8f0;
+    }
+</style>

@@ -24,6 +24,7 @@
             min-height: 100vh;
             opacity: 0;
             animation: fadeIn 0.4s forwards;
+            color: #111827; /* default text color */
         }
 
             /* Overlay mờ */
@@ -89,6 +90,21 @@
                 background: linear-gradient(90deg, #1e293b, #0f172a) !important;
             }
 
+            /* Text và container */
+            .dark-mode body,
+            .dark-mode .container,
+            .dark-mode h1,
+            .dark-mode h2,
+            .dark-mode h3,
+            .dark-mode h4,
+            .dark-mode h5,
+            .dark-mode h6,
+            .dark-mode p,
+            .dark-mode li {
+                color: #e2e8f0 !important;
+            }
+
+            /* Card, modal, table */
             .dark-mode .card,
             .dark-mode .modal-content {
                 background-color: #1e293b !important;
@@ -96,21 +112,40 @@
                 border-color: #334155 !important;
             }
 
+            .dark-mode table {
+                background-color: #1e293b !important;
+                color: #e2e8f0 !important;
+            }
+
+            .dark-mode th,
+            .dark-mode td {
+                border-color: #475569 !important;
+            }
+
+            /* Links */
             .dark-mode a {
                 color: #93c5fd !important;
             }
 
+            /* Forms */
             .dark-mode .form-control {
                 background-color: #334155 !important;
                 color: #f8fafc !important;
                 border-color: #475569 !important;
             }
 
+            /* Buttons */
             .dark-mode .btn-primary {
                 background-color: #3b82f6 !important;
+                color: #fff !important;
             }
-    </style>
 
+            .dark-mode .btn-outline-light {
+                border-color: #e2e8f0 !important;
+                color: #e2e8f0 !important;
+            }
+
+    </style>
 </head>
 
 <body>
@@ -159,7 +194,6 @@
                 </button>
 
             </div>
-
         </div>
     </nav>
 

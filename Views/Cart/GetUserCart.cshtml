@@ -1,69 +1,77 @@
-﻿@model ShoppingCart
+﻿@model BookShoppingCartMvcUI.Models.ShoppingCart
 @{
-    ViewData["Title"] = "GetUserCart";
+    ViewData["Title"] = "My Cart";
 }
 
-<div style="width:90%;margin:auto" class="mt-2">
-    @if (Model != null && Model.CartDetails != null && Model.CartDetails.Count > 0)
-    {
-        <h5>My Cart</h5>
+<div class="container my-5">
+    <div class="cart-wrapper shadow-lg p-4 rounded-4">
+        <h3 class="mb-4 fw-bold text-center">🛒 My Cart</h3>
 
-        <table class="table table-striped">
-            <tr>
-                <th>Book</th>
-                <th>Image</th>
-                <th>Genre</th>
-                <th>Unit Price(INR)</th>
-                <th>Total Price</th>
-                <th>Action</th>
-            </tr>
-            @foreach (var item in Model.CartDetails)
-            {
-                <tr>
-                    <td>@item.Book.BookName</td>
-                    <td>
-                        @if (string.IsNullOrEmpty(item.Book.Image))
+        @if (Model != null && Model.CartDetails != null && Model.CartDetails.Count > 0)
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th>Book</th>
+                            <th>Genre</th>
+                            <th>Unit Price (VND)</th>
+                            <th>Total Price (VND)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartDetails)
                         {
-                            <img src="/images/NoImage.png" style="width:80px;height:100px" />
+                            <tr>
+                                <td>@item.Book.BookName</td>
+                                <td>@item.Book.Genre.GenreName</td>
+                                <td>@string.Format("{0:N0}₫", item.UnitPrice) x @item.Quantity</td>
+                                <td>@string.Format("{0:N0}₫", item.UnitPrice * item.Quantity)</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        @if (item.Quantity < item.Book.Stock.Quantity)
+                                        {
+                                            <a class="btn btn-sm btn-success" href="/Cart/AddItem?bookId=@item.BookId&redirect=1">+</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Out of stock</span>
+                                        }
+                                        <a class="btn btn-sm btn-danger" href="/Cart/RemoveItem?bookId=@item.BookId">-</a>
+                                    </div>
+                                </td>
+                            </tr>
                         }
-                        else
-                        {
-                            <img src="/images/@item.Book.Image" style="width:80px;height:100px" />
-                        }
-                    </td>
-                    <td>@item.Book.Genre.GenreName</td>
-                    <td>@item.Book.Price X @item.Quantity</td>
-                    <td>@(item.Book.Price * item.Quantity)</td>
-                    <td>
-                        @* Increase Quantity button should be invisible if not enough stock*@
-                        @if (item.Quantity < item.Book.Stock.Quantity)
-                        {
-                            <a class="btn btn-info" href="/Cart/AddItem?bookId=@item.BookId&&redirect=1">+</a>
-                        }
-                        else
-                        {
-                            <span style="border: 1px solid;padding: 8px 8px;color: red;border-radius: 5px;margin-right:4px">Out of stock </span>
-                        }
-                        @* Decrement button *@
-                        <a class="btn btn-info" href="/cart/removeitem?bookid=@item.BookId">-</a>
-                    </td>
-                </tr>
-            }
-        </table>
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="my-2">
-            <h5>Total(INR): </h5>
-            @(Model.CartDetails.Select(item => item.Book.Price * item.Quantity).Sum())
-        </div>
-
-        <div class="my-2">
-            <a class="btn btn-primary" href="/Cart/Checkout">Checkout</a>
-        </div>
-
-    }
-    else
-    {
-        <h5>Cart is empty</h5>
-    }
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <h5 class="fw-bold">
+                    Total: @string.Format("{0:N0}₫", Model.CartDetails.Sum(x => x.UnitPrice * x.Quantity))
+                </h5>
+                <a class="btn btn-primary btn-lg" href="/Cart/Checkout">Checkout</a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                Your cart is empty.
+            </div>
+        }
+    </div>
 </div>
 
+<style>
+    .cart-wrapper {
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode .cart-wrapper {
+        background-color: rgba(30, 41, 59, 0.85);
+        color: #e2e8f0;
+    }
+</style>
